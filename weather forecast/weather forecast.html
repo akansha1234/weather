@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Weather Forecast</title>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.bg1{
+	background-color: #42bcf4;
+	color: white;
+	padding:15px;
+	text-align: center;
+}
+p{
+	color: #42bcf4;
+	font-size:18px;
+}
+</style>
+</head>
+<body>
+<div class="container-fluid bg1"><h1>Get Current Weather</h1></div>
+<br>
+<div class="container bg2 text-center">
+<p>Enter City Name</p>
+<input type="text" name="city name" placeholder="City Name" id="city">
+<button type="button" class="btn btn-info" id="submitWeather">Search City</button>
+<div id="show"></div> 
+</div>
+<script>
+$(document).ready(function(){
+	$("submitWeather").click(function(){
+	var city=$("#city").val();
+	if(city!=""){
+     $.ajax({
+     	url:'http://api.openweathermap.org/data/2.5/weather?q='+city+"&units=metric"+"&appid=1f8717b47b97d9043cff805d101373db",
+     	type:"GET",
+     	dataType:"jsonp",
+     	success:function(data){
+     		var widget=show(data);
+     		$("#show").html(widget);
+     	}
+     });
+	}
+	else{
+		alert("field cannot be emptied");
+	}	
+	});
+	
+});
+function show(data){
+	return "<h3><strong>Weather</strong>:"+data.weather[0].main+"</h3>"+
+	"<h3><strong>description</strong>:"+data.weather[0].main+"</h3>"+
+	"<h3><strong>Temperature</strong>:"+data.main.temp+"</h3>"+
+	"<h3><strong>Pressure</strong>:"+data.main.pressure+"</h3>"+
+	"<h3><strong>Humidity</strong>:"+data.main.humidity+"</h3>"+
+	"<h3><strong>Min temp</strong>:"+data.main.temp_main+"</h3>"+
+	"<h3><strong>Max Temperature</strong>:"+data.main.temp_max+"</h3>"
+}
+</script>
+</body>
+</html>
